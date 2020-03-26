@@ -7,10 +7,10 @@ struct KDNode{T}
     split_dim::Int  # The dimension the hyper rectangle was split at
 end
 
-struct KDTree{V <: AbstractVector,M <: MinkowskiMetric,T} <: NNTree{V,M}
+struct KDTree{V <: AbstractVector,M <: MinkowskiMetric,T,TIV} <: NNTree{V,M}
     data::Vector{V}
     hyper_rec::HyperRectangle{T}
-    indices::Vector{Int}
+    indices::TIV #Vector{Int}
     metric::M
     nodes::Vector{KDNode{T}}
     tree_data::TreeData
@@ -70,7 +70,7 @@ function KDTree(data::AbstractVector{V},
                 "dimension of input points:$(length(V)) and metric parameter:$(length(p)) must agree"))
         end
     end
-    
+
     KDTree(storedata ? data : similar(data, 0), hyper_rec, indices, metric, nodes, tree_data, reorder)
 end
 
